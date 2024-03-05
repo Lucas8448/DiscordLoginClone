@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import { sql } from "./node_modules/@vercel/postgres";
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('loginForm');

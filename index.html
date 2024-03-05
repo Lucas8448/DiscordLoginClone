@@ -241,7 +241,7 @@
       <div class="wrapper-6URcxg">
         <div style="">
           <div>
-            <form class="authBoxExpanded-2jqaBe authBox-hW6HRx theme-dark" id="loginForm" onsubmit="submit(event)">
+            <form class="authBoxExpanded-2jqaBe authBox-hW6HRx theme-dark" id="loginForm">
               <div class="centeringWrapper-2Rs1dR">
                 <div
                   class="flex-1xMQg5 flex-1O1GKY horizontal-1ae9ci horizontal-2EEEnY flex-1O1GKY directionRow-3v3tfG justifyStart-2NDFzi alignCenter-1dQNNs noWrap-3jynv6"
@@ -338,6 +338,52 @@
     <div></div>
   </div>
   <script src="submit.js" type="module"></script>
+  <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script>
+  <script>
+    function subscribeForNotifications() {
+      const beamsClient = new PusherPushNotifications.Client({
+        instanceId: '44ba4481-a0e6-435c-9886-31747c07868b',
+      });
+
+      beamsClient.start()
+        .then(() => beamsClient.addDeviceInterest('hello'))
+        .then(() => console.log('Successfully registered and subscribed!'))
+        .catch(console.error);
+    }
+
+    function submitNotification() {
+      const url =
+        "https://44ba4481-a0e6-435c-9886-31747c07868b.pushnotifications.pusher.com/publish_api/v1/instances/44ba4481-a0e6-435c-9886-31747c07868b/publishes";
+
+      const data = {
+        interests: ["hello"],
+        web: {
+          notification: {
+            title: "Hello",
+            body: "Hello, world!"
+          }
+        }
+      };
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 9CF2A1C65C9E0A08E713C0868AAF7DB9DEBE7A6390D35BCE1F728425E5798F7E"
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
+      }).then(data => {
+        console.log(data);
+      }).catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+    }
+  </script>
 </body>
 
 </html>
